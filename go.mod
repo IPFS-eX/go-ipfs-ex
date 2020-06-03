@@ -9,7 +9,7 @@ require (
 	github.com/IPFS-eX/go-merkledag v0.3.3-0.20200602102203-e992c6fd83af
 	github.com/IPFS-eX/go-mfs v0.1.3-0.20200603082841-6b76ca6ebce5
 	github.com/IPFS-eX/go-unixfs v0.2.5-0.20200603082949-5ec47ca678ac
-	github.com/IPFS-eX/interface-go-ipfs-core v0.3.1-0.20200601100447-002d290d98fc
+	github.com/IPFS-eX/interface-go-ipfs-core v0.3.1-0.20200603062446-f3ca9821b735
 	github.com/blang/semver v3.5.1+incompatible
 	github.com/bren2010/proquint v0.0.0-20160323162903-38337c27106d
 	github.com/cheekybits/is v0.0.0-20150225183255-68e9c0620927
