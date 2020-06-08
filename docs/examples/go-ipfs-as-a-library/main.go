@@ -10,7 +10,7 @@ import (
 	"strings"
 	"sync"
 
-	config "github.com/ipfs/go-ipfs-config"
+	config "github.com/IPFS-eX/go-ipfs-config"
 	files "github.com/ipfs/go-ipfs-files"
 	libp2p "github.com/IPFS-eX/go-ipfs-ex/core/node/libp2p"
 	icore "github.com/IPFS-eX/interface-go-ipfs-core"

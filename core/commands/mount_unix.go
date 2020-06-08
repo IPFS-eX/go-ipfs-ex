@@ -10,7 +10,7 @@ import (
 	nodeMount "github.com/IPFS-eX/go-ipfs-ex/fuse/node"
 
 	cmds "github.com/ipfs/go-ipfs-cmds"
-	config "github.com/ipfs/go-ipfs-config"
+	config "github.com/IPFS-eX/go-ipfs-config"
 )
 
 const (

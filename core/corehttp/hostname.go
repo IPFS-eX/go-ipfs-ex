@@ -16,7 +16,7 @@ import (
 	"github.com/libp2p/go-libp2p-core/peer"
 	mbase "github.com/multiformats/go-multibase"
 
-	config "github.com/ipfs/go-ipfs-config"
+	config "github.com/IPFS-eX/go-ipfs-config"
 	iface "github.com/IPFS-eX/interface-go-ipfs-core"
 	options "github.com/IPFS-eX/interface-go-ipfs-core/options"
 	nsopts "github.com/IPFS-eX/interface-go-ipfs-core/options/namesys"

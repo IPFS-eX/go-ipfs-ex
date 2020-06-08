@@ -2,14 +2,17 @@ module github.com/IPFS-eX/go-ipfs-ex
 
 require (
 	bazil.org/fuse v0.0.0-20200117225306-7b5117fecadc
+	github.com/IPFS-eX/carrier v0.0.0-20200608093935-5e57f3fa0f5d
 	github.com/IPFS-eX/go-bitswap v0.2.15-0.20200601110817-b62e4c3164eb
 	github.com/IPFS-eX/go-blockservice v0.1.4-0.20200601101959-b6d7f171ebf3
+	github.com/IPFS-eX/go-ipfs-config v0.7.3-0.20200608094440-c89bf5dd2e79
 	github.com/IPFS-eX/go-ipfs-exchange-interface v0.0.0-20200601100630-f19054f38398
 	github.com/IPFS-eX/go-ipfs-exchange-offline v0.0.0-20200601101646-594dab26c14c
 	github.com/IPFS-eX/go-merkledag v0.3.3-0.20200602102203-e992c6fd83af
 	github.com/IPFS-eX/go-mfs v0.1.3-0.20200603082841-6b76ca6ebce5
 	github.com/IPFS-eX/go-unixfs v0.2.5-0.20200603082949-5ec47ca678ac
-	github.com/IPFS-eX/interface-go-ipfs-core v0.3.1-0.20200603062446-f3ca9821b735
+	github.com/IPFS-eX/interface-go-ipfs-core v0.3.1-rc.0.0.20200608094347-74fe89e2936b
+	github.com/IPFS-eX/ipfs-scan v0.0.0-20200608094143-cbdc4b199bb7
 	github.com/blang/semver v3.5.1+incompatible
 	github.com/bren2010/proquint v0.0.0-20160323162903-38337c27106d
 	github.com/cheekybits/is v0.0.0-20150225183255-68e9c0620927
@@ -39,7 +42,6 @@ require (
 	github.com/ipfs/go-ipfs-blockstore v0.1.4
 	github.com/ipfs/go-ipfs-chunker v0.0.5
 	github.com/ipfs/go-ipfs-cmds v0.2.9
-	github.com/ipfs/go-ipfs-config v0.5.3
 	github.com/ipfs/go-ipfs-ds-help v0.1.1
 	github.com/ipfs/go-ipfs-files v0.0.8
 	github.com/ipfs/go-ipfs-pinner v0.0.4
@@ -65,7 +67,7 @@ require (
 	github.com/libp2p/go-libp2p v0.8.3
 	github.com/libp2p/go-libp2p-circuit v0.2.2
 	github.com/libp2p/go-libp2p-connmgr v0.2.1
-	github.com/libp2p/go-libp2p-core v0.5.3
+	github.com/libp2p/go-libp2p-core v0.5.6
 	github.com/libp2p/go-libp2p-discovery v0.4.0
 	github.com/libp2p/go-libp2p-http v0.1.5
 	github.com/libp2p/go-libp2p-kad-dht v0.7.11
@@ -73,7 +75,7 @@ require (
 	github.com/libp2p/go-libp2p-loggables v0.1.0
 	github.com/libp2p/go-libp2p-metrics v0.1.0
 	github.com/libp2p/go-libp2p-mplex v0.2.3
-	github.com/libp2p/go-libp2p-peerstore v0.2.3
+	github.com/libp2p/go-libp2p-peerstore v0.2.5
 	github.com/libp2p/go-libp2p-pubsub v0.2.7
 	github.com/libp2p/go-libp2p-pubsub-router v0.2.1
 	github.com/libp2p/go-libp2p-quic-transport v0.3.7
@@ -90,7 +92,7 @@ require (
 	github.com/miekg/dns v1.1.29 // indirect
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mr-tron/base58 v1.1.3
-	github.com/multiformats/go-multiaddr v0.2.1
+	github.com/multiformats/go-multiaddr v0.2.2
 	github.com/multiformats/go-multiaddr-dns v0.2.0
 	github.com/multiformats/go-multiaddr-net v0.1.5
 	github.com/multiformats/go-multibase v0.0.2
@@ -109,7 +111,5 @@ require (
 	golang.org/x/sys v0.0.0-20200420163511-1957bb5e6d1f
 	gopkg.in/cheggaaa/pb.v1 v1.0.28
 )
-
-replace github.com/IPFS-eX/interface-go-ipfs-core => ../interface-go-ipfs-core
 
 go 1.13

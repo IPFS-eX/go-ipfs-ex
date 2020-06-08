@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
+	config "github.com/IPFS-eX/go-ipfs-config"
 	blockstore "github.com/ipfs/go-ipfs-blockstore"
-	config "github.com/ipfs/go-ipfs-config"
 	util "github.com/ipfs/go-ipfs-util"
 	peer "github.com/libp2p/go-libp2p-core/peer"
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
@@ -16,9 +16,9 @@ import (
 	"github.com/IPFS-eX/go-ipfs-ex/p2p"
 
 	offline "github.com/IPFS-eX/go-ipfs-exchange-offline"
+	uio "github.com/IPFS-eX/go-unixfs/io"
 	offroute "github.com/ipfs/go-ipfs-routing/offline"
 	"github.com/ipfs/go-path/resolver"
-	uio "github.com/IPFS-eX/go-unixfs/io"
 	"go.uber.org/fx"
 )
 
@@ -75,7 +75,6 @@ func LibP2P(bcfg *BuildCfg, cfg *config.Config) fx.Option {
 		pubsubOptions = append(
 			pubsubOptions,
 			pubsub.WithMessageSigning(!cfg.Pubsub.DisableSigning),
-			pubsub.WithStrictSignatureVerification(cfg.Pubsub.StrictSignatureVerification),
 		)
 
 		switch cfg.Pubsub.Router {
@@ -130,7 +129,6 @@ func LibP2P(bcfg *BuildCfg, cfg *config.Config) fx.Option {
 		maybeProvide(libp2p.BandwidthCounter, !cfg.Swarm.DisableBandwidthMetrics),
 		maybeProvide(libp2p.NatPortMap, !cfg.Swarm.DisableNatPortMap),
 		maybeProvide(libp2p.AutoRelay, cfg.Swarm.EnableAutoRelay),
-		maybeProvide(libp2p.QUIC, cfg.Experimental.QUIC),
 		autonat,
 		connmgr,
 		ps,

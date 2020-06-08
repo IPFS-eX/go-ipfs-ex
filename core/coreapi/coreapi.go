@@ -143,6 +143,10 @@ func (api *CoreAPI) PubSub() coreiface.PubSubAPI {
 	return (*PubSubAPI)(api)
 }
 
+func (api *CoreAPI) Scan() coreiface.ScanAPI {
+	return (*ScanAPI)(api)
+}
+
 // WithOptions returns api with global options applied
 func (api *CoreAPI) WithOptions(opts ...options.ApiOption) (coreiface.CoreAPI, error) {
 	settings := api.parentOpts // make sure to copy

@@ -11,7 +11,7 @@ import (
 	loader "github.com/IPFS-eX/go-ipfs-ex/plugin/loader"
 
 	"github.com/ipfs/go-ipfs-cmds"
-	config "github.com/ipfs/go-ipfs-config"
+	config "github.com/IPFS-eX/go-ipfs-config"
 	logging "github.com/ipfs/go-log"
 	coreiface "github.com/IPFS-eX/interface-go-ipfs-core"
 	options "github.com/IPFS-eX/interface-go-ipfs-core/options"

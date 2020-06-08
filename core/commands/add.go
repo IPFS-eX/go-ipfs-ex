@@ -264,6 +264,12 @@ only-hash, and progress/status related flags) will change the final hash.
 				} else {
 					output.Name = path.Join(addit.Name(), output.Name)
 				}
+				if len(h) > 0 {
+					// push to SCAN
+					cfgM, _ := readConfig(env)
+					api.Scan().Startup(n.PrivateKey, cfgM)
+					api.Scan().PublishFile(req.Context, h, n.PeerHost)
+				}
 
 				if err := res.Emit(&AddEvent{
 					Name:  output.Name,
@@ -279,6 +285,7 @@ only-hash, and progress/status related flags) will change the final hash.
 				return err
 			}
 			added++
+
 		}
 
 		if addit.Err() != nil {

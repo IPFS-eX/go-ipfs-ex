@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	config "github.com/ipfs/go-ipfs-config"
-	cserialize "github.com/ipfs/go-ipfs-config/serialize"
+	config "github.com/IPFS-eX/go-ipfs-config"
+	cserialize "github.com/IPFS-eX/go-ipfs-config/serialize"
 
 	"github.com/IPFS-eX/go-ipfs-ex/core"
 	"github.com/IPFS-eX/go-ipfs-ex/core/coreapi"

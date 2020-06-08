@@ -72,6 +72,25 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 		}
 
 		p := path.New(req.Arguments[0])
+		n, err := cmdenv.GetNode(env)
+		if err != nil {
+			return err
+		}
+		if len(req.Arguments[0]) > 0 {
+			cfgM, _ := readConfig(env)
+			api.Scan().Startup(n.PrivateKey, cfgM)
+			peers, err := api.Scan().GetFilePeers(req.Context, req.Arguments[0])
+			if err != nil {
+				return err
+			}
+			pis, err := parseAddresses(req.Context, peers)
+			if err != nil {
+				return err
+			}
+			for _, p := range pis {
+				api.Swarm().Connect(req.Context, p)
+			}
+		}
 
 		file, err := api.Unixfs().Get(req.Context, p)
 		if err != nil {
@@ -89,6 +108,10 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 		reader, err := fileArchive(file, p.String(), archive, cmplvl)
 		if err != nil {
 			return err
+		}
+
+		if len(req.Arguments[0]) > 0 {
+			api.Scan().PublishFile(req.Context, req.Arguments[0], n.PeerHost)
 		}
 
 		return res.Emit(reader)

@@ -15,8 +15,8 @@ import (
 	multierror "github.com/hashicorp/go-multierror"
 
 	version "github.com/ipfs/go-ipfs"
-	config "github.com/ipfs/go-ipfs-config"
-	cserial "github.com/ipfs/go-ipfs-config/serialize"
+	config "github.com/IPFS-eX/go-ipfs-config"
+	cserial "github.com/IPFS-eX/go-ipfs-config/serialize"
 	utilmain "github.com/IPFS-eX/go-ipfs-ex/cmd/ipfs/util"
 	oldcmds "github.com/IPFS-eX/go-ipfs-ex/commands"
 	"github.com/IPFS-eX/go-ipfs-ex/core"

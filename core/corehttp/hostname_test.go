@@ -4,7 +4,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	config "github.com/ipfs/go-ipfs-config"
+	config "github.com/IPFS-eX/go-ipfs-config"
 )
 
 func TestToSubdomainURL(t *testing.T) {

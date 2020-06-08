@@ -14,9 +14,9 @@ import (
 	"github.com/IPFS-eX/go-ipfs-ex/repo"
 	"github.com/IPFS-eX/go-ipfs-ex/repo/fsrepo"
 
+	config "github.com/IPFS-eX/go-ipfs-config"
 	"github.com/elgris/jsondiff"
-	"github.com/ipfs/go-ipfs-cmds"
-	"github.com/ipfs/go-ipfs-config"
+	cmds "github.com/ipfs/go-ipfs-cmds"
 )
 
 // ConfigUpdateOutput is config profile apply command's output
@@ -482,4 +482,28 @@ func replaceConfig(r repo.Repo, file io.Reader) error {
 	cfg.Identity.PrivKey = pkstr
 
 	return r.SetConfig(&cfg)
+}
+
+func readConfig(env cmds.Environment) (map[string]interface{}, error) {
+	cfgRoot, err := cmdenv.GetConfigRoot(env)
+	if err != nil {
+		return nil, err
+	}
+
+	fname, err := config.Filename(cfgRoot)
+	if err != nil {
+		return nil, err
+	}
+
+	data, err := ioutil.ReadFile(fname)
+	if err != nil {
+		return nil, err
+	}
+
+	var cfg map[string]interface{}
+	err = json.Unmarshal(data, &cfg)
+	if err != nil {
+		return nil, err
+	}
+	return cfg, nil
 }

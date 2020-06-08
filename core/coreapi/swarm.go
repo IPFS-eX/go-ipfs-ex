@@ -80,7 +80,6 @@ func (api *SwarmAPI) KnownAddrs(context.Context) (map[peer.ID][]ma.Multiaddr, er
 	if api.peerHost == nil {
 		return nil, coreiface.ErrOffline
 	}
-
 	addrs := make(map[peer.ID][]ma.Multiaddr)
 	ps := api.peerHost.Network().Peerstore()
 	for _, p := range ps.Peers() {

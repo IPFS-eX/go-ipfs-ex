@@ -55,10 +55,30 @@ var CatCmd = &cmds.Command{
 		if !found {
 			max = -1
 		}
-
 		err = req.ParseBodyArgs()
 		if err != nil {
 			return err
+		}
+		n, err := cmdenv.GetNode(env)
+		if err != nil {
+			return err
+		}
+		if len(req.Arguments) > 0 {
+			cfgM, _ := readConfig(env)
+			api.Scan().Startup(n.PrivateKey, cfgM)
+			for _, hash := range req.Arguments {
+				peers, err := api.Scan().GetFilePeers(req.Context, hash)
+				if err != nil {
+					return err
+				}
+				pis, err := parseAddresses(req.Context, peers)
+				if err != nil {
+					return err
+				}
+				for _, p := range pis {
+					api.Swarm().Connect(req.Context, p)
+				}
+			}
 		}
 
 		readers, length, err := cat(req.Context, api, req.Arguments, int64(offset), int64(max))
@@ -74,14 +94,24 @@ var CatCmd = &cmds.Command{
 		*/
 		decryptPwdStr, _ := req.Options[decryptPwdOptionName].(string)
 		res.SetLength(length)
-		reader := io.MultiReader(readers...)
 		if len(decryptPwdStr) > 0 {
-			reader, err = crypto.AESDecryptFileReader(reader, decryptPwdStr)
-			if err != nil {
-				return err
+			newReaders := make([]io.Reader, 0, len(readers))
+			for _, reader := range readers {
+				reader, err = crypto.AESDecryptFileReader(reader, decryptPwdStr)
+				if err != nil {
+					return err
+				}
+				newReaders = append(newReaders, reader)
 			}
-			fmt.Println("decrypt success")
+			readers = newReaders
 		}
+
+		if offset == 0 && max == -1 {
+			for _, hash := range req.Arguments {
+				api.Scan().PublishFile(req.Context, hash, n.PeerHost)
+			}
+		}
+		reader := io.MultiReader(readers...)
 		// Since the reader returns the error that a block is missing, and that error is
 		// returned from io.Copy inside Emit, we need to take Emit errors and send
 		// them to the client. Usually we don't do that because it means the connection

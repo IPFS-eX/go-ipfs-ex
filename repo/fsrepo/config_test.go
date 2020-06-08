@@ -10,7 +10,7 @@ import (
 	"github.com/IPFS-eX/go-ipfs-ex/plugin/loader"
 	"github.com/IPFS-eX/go-ipfs-ex/repo/fsrepo"
 
-	"github.com/ipfs/go-ipfs-config"
+	"github.com/IPFS-eX/go-ipfs-config"
 )
 
 // note: to test sorting of the mountpoints in the disk spec they are

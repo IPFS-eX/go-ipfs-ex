@@ -11,7 +11,7 @@ import (
 
 	"github.com/IPFS-eX/go-ipfs-ex/thirdparty/unit"
 
-	config "github.com/ipfs/go-ipfs-config"
+	config "github.com/IPFS-eX/go-ipfs-config"
 	random "github.com/jbenet/go-random"
 )
 
