@@ -79,16 +79,12 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 		if len(req.Arguments[0]) > 0 {
 			cfgM, _ := readConfig(env)
 			api.Scan().Startup(n.PrivateKey, cfgM)
-			peers, err := api.Scan().GetFilePeers(req.Context, req.Arguments[0])
-			if err != nil {
-				return err
-			}
-			pis, err := parseAddresses(req.Context, peers)
-			if err != nil {
-				return err
-			}
-			for _, p := range pis {
-				api.Swarm().Connect(req.Context, p)
+			peers, _ := api.Scan().GetFilePeers(req.Context, req.Arguments[0])
+			if len(peers) > 0 {
+				pis, _ := parseAddresses(req.Context, peers)
+				for _, p := range pis {
+					api.Swarm().Connect(req.Context, p)
+				}
 			}
 		}
 

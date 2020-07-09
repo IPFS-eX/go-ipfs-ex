@@ -69,11 +69,11 @@ var CatCmd = &cmds.Command{
 			for _, hash := range req.Arguments {
 				peers, err := api.Scan().GetFilePeers(req.Context, hash)
 				if err != nil {
-					return err
+					break
 				}
 				pis, err := parseAddresses(req.Context, peers)
 				if err != nil {
-					return err
+					break
 				}
 				for _, p := range pis {
 					api.Swarm().Connect(req.Context, p)

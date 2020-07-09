@@ -71,10 +71,14 @@ func (s *ScanAPI) Startup(privKey ic.PrivKey, cfgM map[string]interface{}) error
 }
 
 func (s *ScanAPI) PublishFile(ctx context.Context, hash string, h host.Host) error {
+	if h == nil {
+		return nil
+	}
 	addrs, err := peer.AddrInfoToP2pAddrs(host.InfoFromHost(h))
 	if err != nil {
 		return err
 	}
+	fmt.Println("push addrs to scan", addrs)
 	id, err := tkActClient.P2pConnect(ScanCfg.Bootstrap[0])
 	cLog.Debugf("connect id %v, err %v", id, err)
 	if err != nil {

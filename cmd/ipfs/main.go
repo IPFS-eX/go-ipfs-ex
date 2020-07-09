@@ -22,10 +22,10 @@ import (
 	repo "github.com/IPFS-eX/go-ipfs-ex/repo"
 	fsrepo "github.com/IPFS-eX/go-ipfs-ex/repo/fsrepo"
 
+	config "github.com/IPFS-eX/go-ipfs-config"
 	cmds "github.com/ipfs/go-ipfs-cmds"
 	"github.com/ipfs/go-ipfs-cmds/cli"
 	cmdhttp "github.com/ipfs/go-ipfs-cmds/http"
-	config "github.com/IPFS-eX/go-ipfs-config"
 	u "github.com/ipfs/go-ipfs-util"
 	logging "github.com/ipfs/go-log"
 	loggables "github.com/libp2p/go-libp2p-loggables"
@@ -69,6 +69,7 @@ func loadPlugins(repoPath string) (*loader.PluginLoader, error) {
 // - output the response
 // - if anything fails, print error, maybe with help
 func main() {
+
 	os.Exit(mainRet())
 }
 

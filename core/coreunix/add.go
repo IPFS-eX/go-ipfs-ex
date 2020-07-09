@@ -404,21 +404,23 @@ func (adder *Adder) addFile(path string, file files.File) error {
 	if len(adder.Identify) > 0 {
 		owner = []byte(adder.Identify.Pretty())
 	}
+	stringReader := strings.NewReader("")
 
-	filePrefix := prefix.NewPrefix(owner, fileName, password)
 	if len(password) > 0 {
+		filePrefix := prefix.NewPrefix(owner, fileName, password)
 		encryptedR, err := crypto.AESEncryptFileReader(file, password)
 		if err != nil {
 			log.Errorf("AESEncryptFileReader error : %s", err)
 			return err
 		}
+		stringReader = strings.NewReader(filePrefix.String())
 		reader = encryptedR
 		log.Debugf("encrypt file success")
 	} else {
 		log.Debugf("non-encrypt file")
 	}
 	// Insert prefix to identify a file
-	stringReader := strings.NewReader(filePrefix.String())
+
 	reader = io.MultiReader(stringReader, reader)
 
 	if adder.Progress {
