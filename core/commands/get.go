@@ -55,6 +55,7 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 		cmds.BoolOption(compressOptionName, "C", "Compress the output with GZIP compression."),
 		cmds.IntOption(compressionLevelOptionName, "l", "The level of compression (1-9)."),
 		cmds.StringOption(decryptPwdOptionName, "Decrypt password to decrypt the file").WithDefault(""),
+		cmds.BoolOption(publishOptionName, "Publish file information to DNS network").WithDefault(true),
 	},
 	PreRun: func(req *cmds.Request, env cmds.Environment) error {
 		_, err := getCompressOptions(req)
@@ -65,7 +66,7 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 		if err != nil {
 			return err
 		}
-
+		publish, _ := req.Options[publishOptionName].(bool)
 		api, err := cmdenv.GetApi(env, req)
 		if err != nil {
 			return err
@@ -106,7 +107,7 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 			return err
 		}
 
-		if len(req.Arguments[0]) > 0 {
+		if len(req.Arguments[0]) > 0 && publish {
 			api.Scan().PublishFile(req.Context, req.Arguments[0], n.PeerHost)
 		}
 

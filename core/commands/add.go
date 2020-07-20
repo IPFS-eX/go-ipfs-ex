@@ -46,6 +46,7 @@ const (
 	inlineOptionName      = "inline"
 	inlineLimitOptionName = "inline-limit"
 	encryptPwdOptionName  = "encryptPassword"
+	publishOptionName     = "publish"
 )
 
 const adderOutChanSize = 8
@@ -138,6 +139,7 @@ only-hash, and progress/status related flags) will change the final hash.
 		cmds.BoolOption(inlineOptionName, "Inline small blocks into CIDs. (experimental)"),
 		cmds.IntOption(inlineLimitOptionName, "Maximum block size to inline. (experimental)").WithDefault(32),
 		cmds.StringOption(encryptPwdOptionName, "Encrypt password to encrypt the file").WithDefault(""),
+		cmds.BoolOption(publishOptionName, "Publish file information to DNS network").WithDefault(true),
 	},
 	PreRun: func(req *cmds.Request, env cmds.Environment) error {
 		quiet, _ := req.Options[quietOptionName].(bool)
@@ -182,6 +184,7 @@ only-hash, and progress/status related flags) will change the final hash.
 		inline, _ := req.Options[inlineOptionName].(bool)
 		inlineLimit, _ := req.Options[inlineLimitOptionName].(int)
 		encryptPwdStr, _ := req.Options[encryptPwdOptionName].(string)
+		publish, _ := req.Options[publishOptionName].(bool)
 
 		hashFunCode, ok := mh.Names[strings.ToLower(hashFunStr)]
 		if !ok {
@@ -264,7 +267,7 @@ only-hash, and progress/status related flags) will change the final hash.
 				} else {
 					output.Name = path.Join(addit.Name(), output.Name)
 				}
-				if len(h) > 0 {
+				if len(h) > 0 && publish {
 					// push to SCAN
 					cfgM, _ := readConfig(env)
 					api.Scan().Startup(n.PrivateKey, cfgM)

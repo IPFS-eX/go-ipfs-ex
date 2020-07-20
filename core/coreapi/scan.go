@@ -74,6 +74,9 @@ func (s *ScanAPI) PublishFile(ctx context.Context, hash string, h host.Host) err
 	if h == nil {
 		return nil
 	}
+	if len(ScanCfg.Bootstrap) == 0 {
+		return nil
+	}
 	addrs, err := peer.AddrInfoToP2pAddrs(host.InfoFromHost(h))
 	if err != nil {
 		return err

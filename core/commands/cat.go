@@ -35,6 +35,7 @@ var CatCmd = &cmds.Command{
 		cmds.Int64Option(offsetOptionName, "o", "Byte offset to begin reading from."),
 		cmds.Int64Option(lengthOptionName, "l", "Maximum number of bytes to read."),
 		cmds.StringOption(decryptPwdOptionName, "Decrypt password to decrypt the file").WithDefault(""),
+		cmds.BoolOption(publishOptionName, "Publish file information to DNS network").WithDefault(true),
 	},
 	Run: func(req *cmds.Request, res cmds.ResponseEmitter, env cmds.Environment) error {
 		api, err := cmdenv.GetApi(env, req)
@@ -48,7 +49,7 @@ var CatCmd = &cmds.Command{
 		}
 
 		max, found := req.Options[lengthOptionName].(int64)
-
+		publish, _ := req.Options[publishOptionName].(bool)
 		if max < 0 {
 			return fmt.Errorf("cannot specify negative length")
 		}
@@ -106,7 +107,7 @@ var CatCmd = &cmds.Command{
 			readers = newReaders
 		}
 
-		if offset == 0 && max == -1 {
+		if offset == 0 && max == -1 && publish {
 			for _, hash := range req.Arguments {
 				api.Scan().PublishFile(req.Context, hash, n.PeerHost)
 			}
