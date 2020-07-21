@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/IPFS-eX/go-ipfs-ex/core/commands/cmdenv"
+	"github.com/IPFS-eX/go-ipfs-ex/core/coreapi"
 
 	coreiface "github.com/IPFS-eX/interface-go-ipfs-core"
 	"github.com/IPFS-eX/interface-go-ipfs-core/options"
@@ -261,6 +262,7 @@ only-hash, and progress/status related flags) will change the final hash.
 				if output.Path != nil {
 					h = enc.Encode(output.Path.Cid())
 				}
+				fmt.Println("name ", addit.Name())
 
 				if !dir && addit.Name() != "" {
 					output.Name = addit.Name()
@@ -271,7 +273,10 @@ only-hash, and progress/status related flags) will change the final hash.
 					// push to SCAN
 					cfgM, _ := readConfig(env)
 					api.Scan().Startup(n.PrivateKey, cfgM)
-					api.Scan().PublishFile(req.Context, h, n.PeerHost)
+					api.Scan().PublishFile(req.Context, &coreapi.ScanFileInfo{
+						Name: addit.Name(),
+						Hash: h,
+					}, n.PeerHost)
 				}
 
 				if err := res.Emit(&AddEvent{

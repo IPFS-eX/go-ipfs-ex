@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/IPFS-eX/go-ipfs-ex/core/commands/cmdenv"
+	"github.com/IPFS-eX/go-ipfs-ex/core/coreapi"
 	"github.com/IPFS-eX/go-ipfs-ex/core/crypto"
 
 	iface "github.com/IPFS-eX/interface-go-ipfs-core"
@@ -64,15 +65,17 @@ var CatCmd = &cmds.Command{
 		if err != nil {
 			return err
 		}
+		fileName := ""
 		if len(req.Arguments) > 0 {
 			cfgM, _ := readConfig(env)
 			api.Scan().Startup(n.PrivateKey, cfgM)
 			for _, hash := range req.Arguments {
-				peers, err := api.Scan().GetFilePeers(req.Context, hash)
+				fi, err := api.Scan().GetFilePeers(req.Context, hash)
 				if err != nil {
 					break
 				}
-				pis, err := parseAddresses(req.Context, peers)
+				fileName = fi.GetName()
+				pis, err := parseAddresses(req.Context, fi.GetPeers())
 				if err != nil {
 					break
 				}
@@ -109,7 +112,10 @@ var CatCmd = &cmds.Command{
 
 		if offset == 0 && max == -1 && publish {
 			for _, hash := range req.Arguments {
-				api.Scan().PublishFile(req.Context, hash, n.PeerHost)
+				api.Scan().PublishFile(req.Context, &coreapi.ScanFileInfo{
+					Name: fileName,
+					Hash: hash,
+				}, n.PeerHost)
 			}
 		}
 		reader := io.MultiReader(readers...)

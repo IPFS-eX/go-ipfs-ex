@@ -13,6 +13,7 @@ import (
 
 	"github.com/IPFS-eX/go-ipfs-ex/core/commands/cmdenv"
 	"github.com/IPFS-eX/go-ipfs-ex/core/commands/e"
+	"github.com/IPFS-eX/go-ipfs-ex/core/coreapi"
 	"github.com/IPFS-eX/go-ipfs-ex/core/crypto"
 	"github.com/IPFS-eX/interface-go-ipfs-core/path"
 	cmds "github.com/ipfs/go-ipfs-cmds"
@@ -77,15 +78,22 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 		if err != nil {
 			return err
 		}
+		fileName := ""
 		if len(req.Arguments[0]) > 0 {
 			cfgM, _ := readConfig(env)
 			api.Scan().Startup(n.PrivateKey, cfgM)
-			peers, _ := api.Scan().GetFilePeers(req.Context, req.Arguments[0])
-			if len(peers) > 0 {
-				pis, _ := parseAddresses(req.Context, peers)
+			fi, _ := api.Scan().GetFilePeers(req.Context, req.Arguments[0])
+			fileName = fi.GetName()
+			if len(fi.GetPeers()) > 0 {
+
+				pis, _ := parseAddresses(req.Context, fi.GetPeers())
 				for _, p := range pis {
 					api.Swarm().Connect(req.Context, p)
 				}
+			}
+			_, ok := req.Options[outputOptionName].(string)
+			if len(fileName) > 0 && !ok {
+				req.Options[outputOptionName] = fileName
 			}
 		}
 
@@ -108,7 +116,10 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 		}
 
 		if len(req.Arguments[0]) > 0 && publish {
-			api.Scan().PublishFile(req.Context, req.Arguments[0], n.PeerHost)
+			api.Scan().PublishFile(req.Context, &coreapi.ScanFileInfo{
+				Name: fileName,
+				Hash: req.Arguments[0],
+			}, n.PeerHost)
 		}
 
 		return res.Emit(reader)
