@@ -96,10 +96,14 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 				req.Options[outputOptionName] = fileName
 			}
 		}
-
 		file, err := api.Unixfs().Get(req.Context, p)
 		if err != nil {
 			return err
+		}
+		newPeers := make([]string, 0)
+		peers, _ := api.Swarm().Peers(req.Context)
+		for _, p := range peers {
+			newPeers = append(newPeers, fmt.Sprintf("%s/p2p/%s", p.Address().String(), p.ID()))
 		}
 
 		size, err := file.Size()
@@ -114,11 +118,11 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 		if err != nil {
 			return err
 		}
-
 		if len(req.Arguments[0]) > 0 && publish {
 			api.Scan().PublishFile(req.Context, &coreapi.ScanFileInfo{
-				Name: fileName,
-				Hash: req.Arguments[0],
+				Name:  fileName,
+				Hash:  req.Arguments[0],
+				Peers: newPeers,
 			}, n.PeerHost)
 		}
 
@@ -127,7 +131,6 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 	PostRun: cmds.PostRunMap{
 		cmds.CLI: func(res cmds.Response, re cmds.ResponseEmitter) error {
 			req := res.Request()
-
 			v, err := res.Next()
 			if err != nil {
 				return err

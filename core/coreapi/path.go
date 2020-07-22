@@ -7,13 +7,13 @@ import (
 
 	"github.com/IPFS-eX/go-ipfs-ex/namesys/resolve"
 
+	uio "github.com/IPFS-eX/go-unixfs/io"
+	coreiface "github.com/IPFS-eX/interface-go-ipfs-core"
+	path "github.com/IPFS-eX/interface-go-ipfs-core/path"
 	"github.com/ipfs/go-cid"
 	ipld "github.com/ipfs/go-ipld-format"
 	ipfspath "github.com/ipfs/go-path"
 	"github.com/ipfs/go-path/resolver"
-	uio "github.com/IPFS-eX/go-unixfs/io"
-	coreiface "github.com/IPFS-eX/interface-go-ipfs-core"
-	path "github.com/IPFS-eX/interface-go-ipfs-core/path"
 )
 
 // ResolveNode resolves the path `p` using Unixfs resolver, gets and returns the
@@ -23,7 +23,6 @@ func (api *CoreAPI) ResolveNode(ctx context.Context, p path.Path) (ipld.Node, er
 	if err != nil {
 		return nil, err
 	}
-
 	node, err := api.dag.Get(ctx, rp.Cid())
 	if err != nil {
 		return nil, err

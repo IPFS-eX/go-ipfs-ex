@@ -129,6 +129,21 @@ func (s *ScanAPI) PublishFile(ctx context.Context, fileInfo coreiface.FileInfo, 
 		}, id)
 		cLog.Debugf("push hash: %v, host %v, err %v\n", sFileInfo.Hash, h, err)
 	}
+
+	for _, p := range fileInfo.GetPeers() {
+		if ScanCfg.IgnoreIPv6 && strings.Contains(p, "ip6") {
+			continue
+		}
+		if ScanCfg.IgnoreLocalHost && strings.Contains(p, "192") {
+			continue
+		}
+		_, err := tkServer.AnnounceRequestCompleteTorrent(&pm.CompleteTorrentReq{
+			Name:     []byte(sFileInfo.Name),
+			InfoHash: []byte(sFileInfo.Hash),
+			NodeAddr: []byte(p),
+		}, id)
+		cLog.Debugf("push hash: %v, host %v, err %v\n", sFileInfo.Hash, h, err)
+	}
 	return nil
 }
 func (s *ScanAPI) GetFilePeers(ctx context.Context, hash string) (coreiface.FileInfo, error) {
