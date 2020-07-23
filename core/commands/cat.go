@@ -80,7 +80,7 @@ var CatCmd = &cmds.Command{
 					break
 				}
 				for _, p := range pis {
-					api.Swarm().Connect(req.Context, p)
+					go api.Swarm().Connect(req.Context, p)
 				}
 			}
 		}

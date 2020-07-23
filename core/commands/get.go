@@ -88,7 +88,7 @@ may also specify the level of compression by specifying '-l=<1-9>'.
 
 				pis, _ := parseAddresses(req.Context, fi.GetPeers())
 				for _, p := range pis {
-					api.Swarm().Connect(req.Context, p)
+					go api.Swarm().Connect(req.Context, p)
 				}
 			}
 			_, ok := req.Options[outputOptionName].(string)
